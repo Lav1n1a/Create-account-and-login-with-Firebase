@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+  @keyframes animacao {
+    0% {background-color: #ff9a9e;}
+    25% {background-color: #b8456f;}
+    50% {background-color: #f99185;}
+    75% {background-color: #fad0c4;}
+  }
+  body {
+    background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .content {
+    text-align: center;
+    margin: 50px 0px 135px;
+    background-color: #c23b6c8a;
+    border: 2px solid white;
+    padding: 30px 60px;
+    border-radius: 10px;
+    animation-name: animacao;
+    transition: 0.3s;
+    animation-duration: 30s;
+    
+  }
+  input {
+    width: 270px;
+    height: 25px;
+    margin-left: 10px;
+    font-size: 16px;
+    margin: 12px;
+    padding: 5px 0px 5px 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+  }
+  input:focus{
+    background-color: #fad0c4;
+  }
+  #pas{
+    margin-left: 10px;
+  }
+  #but {
+    background-color:#b12a5b83;
+    color: white;
+    border: 2px solid white;
+    box-shadow: 2px 3px 3px 2px white;
+    border-radius: 10px;
+    width: 250px;
+    height: 50px;
+    font-size: 30px;
+    margin: 30px 70px;
+  }
+</style>
+<body>
+  <div class="content">
+    <h1>Login</h1>
+    <form>
+      <label>Email:</label>
+      <input type="text" id="email" title="email"><br>
+      <label>Senha:</label>
+      <input type="password" id="pas" title="pas"><br>
+      <input type="button" id="but" value="Entrar"/>
+  </form>
+  </div>
+    
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+        import { getAuth, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyD0PO0gW0ef6J8JCbm1HSBPYvhYZsVXq3I",
+          authDomain: "sla-test-1f899.firebaseapp.com",
+          databaseURL: "https://sla-test-1f899-default-rtdb.firebaseio.com",
+          projectId: "sla-test-1f899",
+          storageBucket: "sla-test-1f899.appspot.com",
+          messagingSenderId: "755780094624",
+          appId: "1:755780094624:web:72f1aaa4eda2155c2dd7c5",
+          measurementId: "G-NDY1X733HL"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+        const database = getDatabase(app);
+
+        document.querySelector('#but').addEventListener('click', function(){
+            var email = document.querySelector('#email').value;
+            var password = document.querySelector('#pas').value; 
+
+            signInWithEmailAndPassword(auth, email, password)
+             .then((userCredential) => {
+              // Signed in 
+               const user = userCredential.user;
+
+               set(ref(database, 'users/' + user.uid), {
+                  email: email,
+                  password: password
+                })
+                   .then(() => {
+                      alert('Sucessfully')
+                    })
+                   .catch((error) => {
+                      alert(error)
+                    });
+
+                 alert('bem-vindo hehe')
+                 window.location.href = 'https://github.com/Lav1n1a';
+              // ...
+            })
+            .catch((error) => {
+               const errorCode = error.code;
+               const errorMessage = error.message;
+               alert(error)
+            });
+        })
+    </script>
+    
+</body>
+</html>

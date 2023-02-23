@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+  @keyframes animacao {
+    0% {background-color: #c23b6c8a;}
+    25% {background-color: #b8456f;}
+    50% {background-color: #f99185;}
+    75% {background-color: #aa3c50;}
+  }
+  body {
+    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .content {
+    background-color: #c23b6c8a;
+    margin-top: 20px;
+    border: 2px solid white;
+    padding: 20px 60px;
+    border-radius: 10px;
+    animation-name: animacao;
+    transition: 0.3s;
+    animation-duration: 30s;
+  
+  }
+
+  input {
+    width: 270px;
+    height: 25px;
+    margin-left: 10px;
+    font-size: 16px;
+    margin: 12px;
+    padding: 5px 0px 5px 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+  }
+  input:focus{
+    background-color: #fad0c4;
+  }
+  #pas{
+    margin-left: 10px;
+  }
+  #button {
+    background-color:#b12a5b83;
+    color: white;
+    border: 2px solid white;
+    box-shadow: 2px 3px 3px 2px white;
+    border-radius: 10px;
+    width: 250px;
+    height: 50px;
+    font-size: 30px;
+    margin: 30px 70px;
+  }
+
+</style>
+<body>
+  <div class="content">
+    <h1>Create Account</h1>
+    <form>
+        <label for="email">Email:</label>
+        <input type="text" id="email" title="email" placeholder="Insira seu email"><br>
+        <label for="pas">Senha:</label>
+        <input type="password" id="pas" title="pas" placeholder="Insira sua senha">
+        <br>
+        <input type="button" id="button" value="pronto!" />
+    </form>
+    <h3>Já criou sua conta?</h3>
+    <p>Faça o <a href="./login.html">Login</a></p>
+  </div>
+
+     <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js";
+        import { getAuth, createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyD0PO0gW0ef6J8JCbm1HSBPYvhYZsVXq3I",
+          authDomain: "sla-test-1f899.firebaseapp.com",
+          databaseURL: "https://sla-test-1f899-default-rtdb.firebaseio.com",
+          projectId: "sla-test-1f899",
+          storageBucket: "sla-test-1f899.appspot.com",
+          messagingSenderId: "755780094624",
+          appId: "1:755780094624:web:72f1aaa4eda2155c2dd7c5",
+          measurementId: "G-NDY1X733HL"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth();
+
+        document.querySelector('#button').addEventListener('click', function() {
+          var email = document.querySelector('#email').value;
+            var password = document.querySelector('#pas').value;
+
+            createUserWithEmailAndPassword(auth, email, password)
+             .then((userCredential) => {
+                const user = userCredential.user;
+
+                alert('Account Created')
+                window.location.href = 'login.html';
+             })
+             .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log('deu errado')
+                alert(error)
+             })
+        })
+
+      </script>
+</body>
+</html>
